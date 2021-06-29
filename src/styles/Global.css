@@ -1,0 +1,48 @@
+a, a:hover {
+    color: #000;
+}
+
+*, :after, :before {
+    box-sizing: border-box;
+    border: 0 solid;
+}
+
+*, :after, :before {
+    --tw-border-opacity: 1;
+    border-color: rgba(229,231,235,var(--tw-border-opacity));
+}
+
+h3 {
+    font-size: 1.125rem;
+}
+
+h2, h3 {
+    line-height: 1.75rem;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
+}
+
+blockquote, dd, dl, figure, h1, h2, h3, h4, h5, h6, hr, p, pre {
+    margin: 0;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+fieldset, ol, ul {
+     margin: 0;
+    padding: 0;
+}
+
+button {
+    background-color: transparent;
+    background-image: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+

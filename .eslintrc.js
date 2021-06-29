@@ -17,6 +17,11 @@ module.exports = {
     'import/no-unresolved': 0,
     'import/extensions': 0,
     'react/jsx-filename-extension': [1, { extensions: ['.ts', '.tsx'] }],
+    camelcase: 0,
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    'no-console': 0,
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-noninteractive-element-interactions': 0,
   },
   settings: {
     'import/resolver': {
