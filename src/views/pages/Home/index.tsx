@@ -43,24 +43,32 @@ function Home() {
   };
 
   useEffect(() => {
+    setCurrentPageNumber({
+      a: Math.floor(posts.aPosts.length / 10),
+      b: Math.floor(posts.bPosts.length / 10),
+      filtered: Math.floor(posts.filteredPosts.length / 10),
+    });
+  }, [posts]);
+
+  useEffect(() => {
     const onScroll = useThrottle(async () => {
       if (window.pageYOffset + document.documentElement.clientHeight > document.documentElement.scrollHeight - 300) {
         if (!loadPostsLoading) {
-          if (searchInput !== '' && hasMorePosts.filtered) {
+          if (searchInput !== '' && hasMorePosts.filtered && currentPageNumber.filtered !== 0) {
             loadPostsOnScroll(
               LOAD_POSTS_REQUEST_ACTION,
               search_Posts,
               LOAD_FILTERED_POSTS_SUCCESS_ACTION,
               currentPageNumber.filtered + 1,
             ).catch((error) => console.log(error));
-          } else if (currentContentState === 'a' && hasMorePosts.a) {
+          } else if (currentContentState === 'a' && hasMorePosts.a && currentPageNumber.a !== 0) {
             loadPostsOnScroll(
               LOAD_POSTS_REQUEST_ACTION,
               load_A_Posts,
               LOAD_A_POSTS_SUCCESS_ACTION,
               currentPageNumber.a + 1,
             ).catch((error) => console.log(error));
-          } else if (currentContentState === 'b' && hasMorePosts.b) {
+          } else if (currentContentState === 'b' && hasMorePosts.b && currentPageNumber.b !== 0) {
             loadPostsOnScroll(
               LOAD_POSTS_REQUEST_ACTION,
               load_B_Posts,
@@ -70,20 +78,12 @@ function Home() {
           }
         }
       }
-    }, 50);
+    }, 100);
     window.addEventListener('scroll', onScroll);
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, [hasMorePosts, loadPostsLoading]);
-
-  useEffect(() => {
-    setCurrentPageNumber({
-      a: Math.floor(posts.aPosts.length / 10),
-      b: Math.floor(posts.bPosts.length / 10),
-      filtered: Math.floor(posts.filteredPosts.length / 10),
-    });
-  }, [posts]);
+  }, [hasMorePosts, loadPostsLoading, currentPageNumber]);
 
   return (
     <>

@@ -7,11 +7,6 @@ export const initialState = {
     filteredPosts: [],
   },
   currentContentState: 'a',
-  currentPageNumber: {
-    a: 0,
-    b: 0,
-    filtered: 0,
-  },
   hasMorePosts: {
     a: true,
     b: true,
