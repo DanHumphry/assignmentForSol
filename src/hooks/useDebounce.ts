@@ -1,20 +1,17 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
 
-export default function useDebounce(
-  value: string,
-  action: { (data: string): { type: string; data: string } },
-  delay: number,
-) {
-  const dispatch = useDispatch();
+export default function useDebounce(value: string, delay: number) {
+  const [debounceValue, setDebounceValue] = useState(value);
 
   useEffect(() => {
     const handler = setTimeout(() => {
-      dispatch(action(value));
+      setDebounceValue(value);
     }, delay);
 
     return () => {
       clearTimeout(handler);
     };
   }, [value]);
+
+  return debounceValue;
 }

@@ -1,6 +1,6 @@
 import { search_Posts } from 'api/post';
 import useDebounce from 'hooks/useDebounce';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'reducers';
 import {
@@ -17,14 +17,29 @@ function SearchBar() {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const [input, setInput] = useState(searchInput);
+  const debouncedSearchInput = useDebounce(input, 150);
+
+  useEffect(() => {
+    if (debouncedSearchInput) {
+      dispatch(CHANGE_SEARCH_INPUT_ACTION(debouncedSearchInput));
+    } else {
+      dispatch(CHANGE_SEARCH_INPUT_ACTION(''));
+    }
+  }, [debouncedSearchInput]);
+
   const filteredPosts = async () => {
-    dispatch(LOAD_POSTS_REQUEST_ACTION());
-    const res = await search_Posts({ currentContentState, searchInput, currentPageNumber: 0 });
-    dispatch(LOAD_FILTERED_POSTS_SUCCESS_ACTION(res.data));
+    try {
+      dispatch(LOAD_POSTS_REQUEST_ACTION());
+      const res = await search_Posts({ currentContentState, searchInput, currentPageNumber: 0 });
+      dispatch(LOAD_FILTERED_POSTS_SUCCESS_ACTION(res.data));
+    } catch (error) {
+      dispatch(LOAD_POSTS_FAILURE_ACTION(error));
+    }
   };
 
   useEffect(() => {
-    if (searchInput !== '') filteredPosts().catch((error) => LOAD_POSTS_FAILURE_ACTION(error));
+    if (searchInput !== '') filteredPosts().catch((error) => console.log(error));
   }, [searchInput, currentContentState]);
 
   return (
@@ -57,8 +72,8 @@ function SearchBar() {
           placeholder="검색어를 입력하세요"
           type="text"
           className={css.figureInput}
-          value={searchInput}
-          onChange={(e) => useDebounce(e.target.value, CHANGE_SEARCH_INPUT_ACTION, 500)}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
       </figure>
     </article>

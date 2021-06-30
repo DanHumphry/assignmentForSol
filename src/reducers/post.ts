@@ -23,6 +23,7 @@ export const LOAD_POSTS_REQUEST = 'LOAD_POSTS_REQUEST';
 export const LOAD_A_POSTS_SUCCESS = 'LOAD_A_POSTS_SUCCESS';
 export const LOAD_B_POSTS_SUCCESS = 'LOAD_B_POSTS_SUCCESS';
 export const LOAD_FILTERED_POSTS_SUCCESS = 'LOAD_FILTERED_POSTS_SUCCESS';
+export const LOAD_FILTERED_POSTS_SCROLL_SUCCESS = 'LOAD_FILTERED_POSTS_SCROLL_SUCCESS';
 export const LOAD_POSTS_FAILURE = 'LOAD_POSTS_FAILURE';
 
 export const CHANGE_CURRENT_CONTENT = 'CHANGE_CURRENT_CONTENT';
@@ -33,6 +34,10 @@ export const LOAD_A_POSTS_SUCCESS_ACTION = (data: PostProps[]) => ({ type: LOAD_
 export const LOAD_B_POSTS_SUCCESS_ACTION = (data: PostProps[]) => ({ type: LOAD_B_POSTS_SUCCESS, data });
 export const LOAD_FILTERED_POSTS_SUCCESS_ACTION = (data: PostProps[]) => ({
   type: LOAD_FILTERED_POSTS_SUCCESS,
+  data,
+});
+export const LOAD_FILTERED_POSTS_SCROLL_SUCCESS_ACTION = (data: PostProps[]) => ({
+  type: LOAD_FILTERED_POSTS_SCROLL_SUCCESS,
   data,
 });
 export const LOAD_POSTS_FAILURE_ACTION = (error: Error | string) => ({ type: LOAD_POSTS_FAILURE, data: error });
@@ -71,8 +76,6 @@ const Post = (state = initialState, action: any) => {
       };
     }
     case LOAD_FILTERED_POSTS_SUCCESS: {
-      // const prevPosts = [...state.posts.filteredPosts];
-      // const nextPosts = prevPosts.concat(action.data);
       const isHasMore = action.data.length === 10;
       return {
         ...state,
@@ -81,7 +84,19 @@ const Post = (state = initialState, action: any) => {
         loadPostsError: null,
         posts: { ...state.posts, filteredPosts: action.data },
         hasMorePosts: { ...state.hasMorePosts, filtered: isHasMore },
-        // posts: { ...state.posts, filteredPosts: nextPosts },
+      };
+    }
+    case LOAD_FILTERED_POSTS_SCROLL_SUCCESS: {
+      const prevPosts = [...state.posts.filteredPosts];
+      const nextPosts = prevPosts.concat(action.data);
+      const isHasMore = action.data.length === 10;
+      return {
+        ...state,
+        loadPostsLoading: false,
+        loadPostsDone: true,
+        loadPostsError: null,
+        hasMorePosts: { ...state.hasMorePosts, filtered: isHasMore },
+        posts: { ...state.posts, filteredPosts: nextPosts },
       };
     }
     case LOAD_POSTS_FAILURE:

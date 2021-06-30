@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'reducers';
 import React, { useEffect, useState } from 'react';
 import {
-  LOAD_FILTERED_POSTS_SUCCESS_ACTION,
+  LOAD_FILTERED_POSTS_SCROLL_SUCCESS_ACTION,
   LOAD_POSTS_REQUEST_ACTION,
   LOAD_A_POSTS_SUCCESS_ACTION,
   LOAD_B_POSTS_SUCCESS_ACTION,
+  LOAD_POSTS_FAILURE_ACTION,
 } from 'reducers/post';
 import { PostProps } from 'types/post';
 import Header from 'views/components/Home/Header';
@@ -27,19 +28,26 @@ function Home() {
 
   const loadPostsOnScroll = async (
     reqAction: { (): { type: string } },
+    successAction: {
+      (data: PostProps[]): { type: string; data: PostProps[] };
+    },
+    failureAction: {
+      (error: string | Error): { type: string; data: string | Error };
+    },
     loadAPI: {
       (data: { currentPageNumber: number; currentContentState: string; searchInput: string }): Promise<
         AxiosResponse<any>
       >;
     },
-    successAction: {
-      (data: PostProps[]): { type: string; data: PostProps[] };
-    },
     currentPgN: number,
   ) => {
-    dispatch(reqAction());
-    const res = await loadAPI({ currentPageNumber: currentPgN, currentContentState, searchInput });
-    dispatch(successAction(res.data));
+    try {
+      dispatch(reqAction());
+      const res = await loadAPI({ currentPageNumber: currentPgN, currentContentState, searchInput });
+      dispatch(successAction(res.data));
+    } catch (error) {
+      dispatch(failureAction(error));
+    }
   };
 
   useEffect(() => {
@@ -57,22 +65,25 @@ function Home() {
           if (searchInput !== '' && hasMorePosts.filtered && currentPageNumber.filtered !== 0) {
             loadPostsOnScroll(
               LOAD_POSTS_REQUEST_ACTION,
+              LOAD_FILTERED_POSTS_SCROLL_SUCCESS_ACTION,
+              LOAD_POSTS_FAILURE_ACTION,
               search_Posts,
-              LOAD_FILTERED_POSTS_SUCCESS_ACTION,
               currentPageNumber.filtered + 1,
             ).catch((error) => console.log(error));
           } else if (currentContentState === 'a' && hasMorePosts.a && currentPageNumber.a !== 0) {
             loadPostsOnScroll(
               LOAD_POSTS_REQUEST_ACTION,
-              load_A_Posts,
               LOAD_A_POSTS_SUCCESS_ACTION,
+              LOAD_POSTS_FAILURE_ACTION,
+              load_A_Posts,
               currentPageNumber.a + 1,
             ).catch((error) => console.log(error));
           } else if (currentContentState === 'b' && hasMorePosts.b && currentPageNumber.b !== 0) {
             loadPostsOnScroll(
               LOAD_POSTS_REQUEST_ACTION,
-              load_B_Posts,
               LOAD_B_POSTS_SUCCESS_ACTION,
+              LOAD_POSTS_FAILURE_ACTION,
+              load_B_Posts,
               currentPageNumber.b + 1,
             ).catch((error) => console.log(error));
           }
