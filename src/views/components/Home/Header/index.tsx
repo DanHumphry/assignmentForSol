@@ -1,9 +1,10 @@
 import React from 'react';
+import css from './Header.module.scss';
 
 function Header() {
   return (
-    <header className="css-1mvlb0p e12x4cjl0">
-      <p className="css-163onbt">게시물을 검색해보세요</p>
+    <header className={css.HomeHeader}>
+      <p className={css.headerTitle}>게시물을 검색해보세요</p>
     </header>
   );
 }

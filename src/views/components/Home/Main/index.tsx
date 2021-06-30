@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { PostProps } from 'types/post';
+import css from './Main.module.scss';
 
 interface Props {
   post: PostProps;
@@ -9,11 +10,11 @@ interface Props {
 function Main({ post }: Props) {
   return (
     <Link to={`/${post.type}?id=${post.id}`}>
-      <li className="css-10w6wn7 e1wfvrfd2">
-        <h3 className="css-0 e1wfvrfd1">
-          <span className="css-8yzqw8">{post.id}.</span> {post.title}
+      <li className={css.mainLi}>
+        <h3>
+          <span className={css.liSpan}>{post.id}.</span> {post.title}
         </h3>
-        <p className="css-8ftd31 e1wfvrfd0">{post.content}</p>
+        <p className={css.liP}>{post.content}</p>
       </li>
     </Link>
   );

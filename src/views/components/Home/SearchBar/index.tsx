@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
+import css from './SearchBar.module.scss';
 
 interface Props {
   title: string;
@@ -13,15 +14,15 @@ function SearchBar({ title, setTitle }: Props) {
   };
 
   return (
-    <article className="css-1mmfi3q">
-      <figure className="group css-12ih1hh e19fr3m91" onClick={onFocusInput}>
-        <i className="css-hbjzqk">
+    <article className={css.SearchArticle}>
+      <figure className={css.articleFigure} onClick={onFocusInput}>
+        <i className={css.figureI}>
           <svg
             aria-hidden="true"
             focusable="false"
             data-prefix="fas"
             data-icon="search"
-            className="svg-inline--fa fa-search fa-w-16 "
+            className={css.iSvg}
             role="img"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 512 512"
@@ -36,7 +37,7 @@ function SearchBar({ title, setTitle }: Props) {
           ref={searchInput}
           placeholder="검색어를 입력하세요"
           type="search"
-          className="css-1ki1932 e19fr3m90"
+          className={css.figureInput}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
         />

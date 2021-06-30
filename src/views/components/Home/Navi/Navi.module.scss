@@ -1,0 +1,36 @@
+.NaviHeader {
+    border-bottom-width: 1px;
+    margin-bottom: 0.5rem;
+  .activeButton {
+    padding: 0.75rem;
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    border-radius: 0.25rem;
+    outline: transparent solid 2px;
+    outline-offset: 2px;
+    appearance: none;
+    font-weight: 500;
+    --tw-text-opacity: 1;
+    color: rgba(59, 130, 246, var(--tw-text-opacity));
+    cursor: pointer;
+  }
+  .activeButton:hover {
+    background-color: #EFEFEF;
+  }
+  .notActiveButton {
+    padding: 0.75rem;
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    border-radius: 0.25rem;
+    outline: transparent solid 2px;
+    outline-offset: 2px;
+    appearance: none;
+    font-weight: 500;
+    cursor: pointer;
+  }
+  .notActiveButton:hover {
+    background-color: #EFEFEF;
+  }
+}

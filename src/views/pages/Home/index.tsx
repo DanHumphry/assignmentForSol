@@ -3,9 +3,9 @@ import { PostProps } from 'types/post';
 import React, { useEffect, useState } from 'react';
 import Header from 'views/components/Home/Header';
 import Main from 'views/components/Home/Main';
-import 'styles/Home.css';
 import Navi from 'views/components/Home/Navi';
 import SearchBar from 'views/components/Home/SearchBar';
+import css from './Home.module.scss';
 
 function Home() {
   const [aPosts, setAPosts] = useState<PostProps[]>([]);
@@ -79,13 +79,13 @@ function Home() {
   }, [hasMorePosts, prevent]);
 
   return (
-    <main className="css-0 ebjj3580">
-      <section className="css-rsw54y e12x4cjl1">
+    <main>
+      <section className={css.HomeMainSection}>
         <Header />
         <SearchBar title={title} setTitle={setTitle} />
-        <main className="css-etxhws">
+        <main>
           <Navi setCurrentContentState={setCurrentContentState} />
-          <ul className="css-zgarh3">
+          <ul className={css.mainUl}>
             {/* eslint-disable-next-line no-nested-ternary */}
             {title !== ''
               ? filteredPosts.map((post: PostProps) => <Main key={post.id} post={post} />)

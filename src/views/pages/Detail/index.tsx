@@ -1,8 +1,8 @@
 import { load_A_Post, load_B_Post } from 'api/post';
 import React, { useEffect, useState } from 'react';
 import { PostProps } from 'types/post';
-import 'styles/Detail.css';
 import { RouteComponentProps } from 'react-router-dom';
+import css from './Detail.module.scss';
 
 function Detail({ history, location }: RouteComponentProps) {
   const [post, setPost] = useState({} as PostProps);
@@ -28,19 +28,19 @@ function Detail({ history, location }: RouteComponentProps) {
   }, [pathname, postId]);
 
   return (
-    <main className="css-0 ebjj3580">
-      <div className="css-18111oz ebjj3581" />
-      <section className="css-1divg4c e1c3s1g31">
-        <article className="css-h0x6p6">
+    <main>
+      <div />
+      <section className={css.DetailMainSection}>
+        <article className={css.sectionArticle}>
           <header>
-            <h2 className="css-9ljxn4">{post.title}</h2>
+            <h2 className={css.articleHeaderH2}>{post.title}</h2>
           </header>
           <div>
             <p>{post.content}</p>
           </div>
         </article>
         <footer>
-          <button type="button" className="css-203ycs e1c3s1g30" onClick={() => history.goBack()}>
+          <button type="button" className={css.sectionFooterButton} onClick={() => history.goBack()}>
             뒤로가기
           </button>
         </footer>

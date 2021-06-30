@@ -1,24 +1,20 @@
-.css-1divg4c {
-    margin: 5rem auto;
-    max-width: 100%;
-    padding: 2.5rem;
-    width: 1000px;
-}
-
-.css-h0x6p6 {
+.DetailMainSection {
+  margin: 5rem auto;
+  max-width: 100%;
+  padding: 2.5rem;
+  width: 1000px;
+  .sectionArticle {
     border-width: 1px;
     padding: 2.5rem;
     margin-bottom: 1rem;
-}
-
-.css-9ljxn4 {
-    text-align: center;
-    margin-bottom: 2.5rem;
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-}
-
-.css-203ycs {
+    .articleHeaderH2 {
+      text-align: center;
+      margin-bottom: 2.5rem;
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+  }
+  .sectionFooterButton {
     padding: 0.75rem 2rem;
     --tw-bg-opacity: 1;
     background-color: rgba(59, 130, 246, var(--tw-bg-opacity));
@@ -30,4 +26,5 @@
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     cursor: pointer;
+  }
 }

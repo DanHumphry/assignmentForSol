@@ -1,0 +1,37 @@
+.SearchArticle {
+  margin-left: auto;
+  margin-right: auto;
+  width: 24rem;
+  .articleFigure {
+    border-width: 1px;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+    display: flex;
+    .figureI {
+      margin-right: 0.5rem;
+      --tw-text-opacity: 1;
+      color: rgba(156, 163, 175, var(--tw-text-opacity));
+      .iSvg {
+        display: inline-block;
+        font-size: inherit;
+        height: 1em;
+        overflow: visible;
+        vertical-align: -0.125em;
+        width: 1em;
+      }
+    }
+    .figureInput {
+      outline: transparent solid 2px;
+      outline-offset: 2px;
+      appearance: none;
+      flex: 1 1 auto;
+    }
+  }
+  .articleFigure:hover{
+    border-width: 1px;
+    border-color: blue;
+  }
+}

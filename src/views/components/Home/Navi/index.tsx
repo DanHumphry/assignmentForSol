@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import css from './Navi.module.scss';
 
 interface Props {
   setCurrentContentState: React.Dispatch<React.SetStateAction<string>>;
@@ -21,11 +22,11 @@ function Navi({ setCurrentContentState }: Props) {
 
   return (
     <section>
-      <header className="css-1gg6c52">
-        <button name="a" ref={aButton} type="button" className="css-314frj e15gmwmn0" onClick={contentHandler}>
+      <header className={css.NaviHeader}>
+        <button name="a" ref={aButton} type="button" className={css.activeButton} onClick={contentHandler}>
           A Posts
         </button>
-        <button name="b" ref={bButton} type="button" className="css-1dbdrbw e15gmwmn0" onClick={contentHandler}>
+        <button name="b" ref={bButton} type="button" className={css.notActiveButton} onClick={contentHandler}>
           B Posts
         </button>
       </header>
