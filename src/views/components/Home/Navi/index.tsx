@@ -1,32 +1,34 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'reducers';
+import { CHANGE_CURRENT_CONTENT_ACTION } from 'reducers/post';
 import css from './Navi.module.scss';
 
-interface Props {
-  setCurrentContentState: React.Dispatch<React.SetStateAction<string>>;
-}
-
-function Navi({ setCurrentContentState }: Props) {
-  const aButton = useRef<HTMLButtonElement>(null);
-  const bButton = useRef<HTMLButtonElement>(null);
+function Navi() {
+  const dispatch = useDispatch();
+  const { currentContentState } = useSelector((store: RootState) => store.post);
 
   const contentHandler = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    setCurrentContentState(e.currentTarget.name);
-    if (e.currentTarget.name === 'a' && aButton.current !== null && bButton.current !== null) {
-      aButton.current.className = 'css-314frj e15gmwmn0';
-      bButton.current.className = 'css-1dbdrbw e15gmwmn0';
-    } else if (e.currentTarget.name === 'b' && aButton.current !== null && bButton.current !== null) {
-      aButton.current.className = 'css-1dbdrbw e15gmwmn0';
-      bButton.current.className = 'css-314frj e15gmwmn0';
-    }
+    dispatch(CHANGE_CURRENT_CONTENT_ACTION(e.currentTarget.name));
   };
 
   return (
     <section>
       <header className={css.NaviHeader}>
-        <button name="a" ref={aButton} type="button" className={css.activeButton} onClick={contentHandler}>
+        <button
+          name="a"
+          type="button"
+          className={currentContentState === 'a' ? css.activeButton : css.notActiveButton}
+          onClick={contentHandler}
+        >
           A Posts
         </button>
-        <button name="b" ref={bButton} type="button" className={css.notActiveButton} onClick={contentHandler}>
+        <button
+          name="b"
+          type="button"
+          className={currentContentState === 'b' ? css.activeButton : css.notActiveButton}
+          onClick={contentHandler}
+        >
           B Posts
         </button>
       </header>

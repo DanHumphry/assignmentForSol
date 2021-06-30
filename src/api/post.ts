@@ -14,6 +14,6 @@ export const load_B_Posts = (data: { currentPageNumber: number }) => {
 export const load_B_Post = (data: { postId: string }) => {
   return axios.get(`b-posts/${data.postId}`);
 };
-export const search_Posts = (data: { currentContentState: string; title: string; currentPageNumber: number }) => {
-  return axios.get(`${data.currentContentState}-posts?page=${data.currentPageNumber}&search=${data.title}`);
+export const search_Posts = (data: { currentPageNumber: number; currentContentState: string; searchInput: string }) => {
+  return axios.get(`${data.currentContentState}-posts?page=${data.currentPageNumber}&search=${data.searchInput}`);
 };

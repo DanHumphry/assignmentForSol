@@ -22,6 +22,7 @@ module.exports = {
     'no-console': 0,
     'jsx-a11y/click-events-have-key-events': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,
+    'no-nested-ternary': 0,
   },
   settings: {
     'import/resolver': {

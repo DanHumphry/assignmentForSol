@@ -27,9 +27,10 @@ function Detail({ history, location }: RouteComponentProps) {
     loadPost().catch((error) => console.log(error));
   }, [pathname, postId]);
 
+  if (Object.keys(post).length === 0) return <div />;
+
   return (
     <main>
-      <div />
       <section className={css.DetailMainSection}>
         <article className={css.sectionArticle}>
           <header>

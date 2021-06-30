@@ -1,21 +1,40 @@
-import React, { useRef } from 'react';
+import { search_Posts } from 'api/post';
+import useDebounce from 'hooks/useDebounce';
+import React, { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'reducers';
+import {
+  CHANGE_SEARCH_INPUT_ACTION,
+  LOAD_FILTERED_POSTS_SUCCESS_ACTION,
+  LOAD_POSTS_FAILURE_ACTION,
+  LOAD_POSTS_REQUEST_ACTION,
+} from 'reducers/post';
 import css from './SearchBar.module.scss';
 
-interface Props {
-  title: string;
-  setTitle: React.Dispatch<React.SetStateAction<string>>;
-}
+function SearchBar() {
+  const dispatch = useDispatch();
+  const { currentContentState, searchInput } = useSelector((store: RootState) => store.post);
 
-function SearchBar({ title, setTitle }: Props) {
-  const searchInput = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const onFocusInput = () => {
-    if (searchInput.current !== null) searchInput.current.focus();
+  const filteredPosts = async () => {
+    dispatch(LOAD_POSTS_REQUEST_ACTION());
+    const res = await search_Posts({ currentContentState, searchInput, currentPageNumber: 0 });
+    dispatch(LOAD_FILTERED_POSTS_SUCCESS_ACTION(res.data));
   };
+
+  useEffect(() => {
+    if (searchInput !== '') filteredPosts().catch((error) => LOAD_POSTS_FAILURE_ACTION(error));
+  }, [searchInput, currentContentState]);
 
   return (
     <article className={css.SearchArticle}>
-      <figure className={css.articleFigure} onClick={onFocusInput}>
+      <figure
+        className={css.articleFigure}
+        onClick={() => {
+          if (inputRef.current !== null) inputRef.current.focus();
+        }}
+      >
         <i className={css.figureI}>
           <svg
             aria-hidden="true"
@@ -34,15 +53,15 @@ function SearchBar({ title, setTitle }: Props) {
           </svg>
         </i>
         <input
-          ref={searchInput}
+          ref={inputRef}
           placeholder="검색어를 입력하세요"
-          type="search"
+          type="text"
           className={css.figureInput}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={searchInput}
+          onChange={(e) => useDebounce(e.target.value, CHANGE_SEARCH_INPUT_ACTION, 500)}
         />
       </figure>
     </article>
   );
 }
-export default React.memo(SearchBar);
+export default SearchBar;
